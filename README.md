@@ -26,4 +26,6 @@ Data can be downloaded from [The McGill Billboard Project](https://ddmal.music.m
 
 After downloading the data, uncompress and then rename them as is mentioned above. After that, generate the data by running
 
-```python data_preprocess.py```
+```
+python data_preprocess.py
+```
