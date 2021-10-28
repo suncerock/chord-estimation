@@ -354,6 +354,21 @@ class Decoder(nn.Module):
         return self.proj(x)
 
 
+class HTLoss(nn.Module):
+    def __init__(self):
+        super(HTLoss, self).__init__()
+        self.loss_c = nn.CrossEntropyLoss()
+        self.loss_ct = nn.BCELoss()
+
+    def forward(self, output, batch):
+        y_cc_pred, y_pred = output
+        _, y_cc, y, _ = batch
+        loss_c = self.loss_c(y_pred.transpose(1, 2), y.long())
+        loss_ct = self.loss_ct(y_cc_pred, y_cc.float())
+        loss = 3 * loss_c + loss_ct
+        return loss
+
+
 class HarmonyTransformer(nn.Module):
     def __init__(self,
                  n_steps=100,
@@ -366,9 +381,11 @@ class HarmonyTransformer(nn.Module):
         self.encoder = Encoder(n_steps, frequency_size, segment_width, drop)
         self.decoder = Decoder(n_classes, n_steps, frequency_size, segment_width, drop)
 
-    def forward(self, x):
+    def forward(self, batch):
+        x = batch[0]
         encoder_embed, chord_change_prob = self.encoder(x)
         output = self.decoder(x, encoder_embed, chord_change_prob)
+        print(chord_change_prob.shape, output.shape)
         return chord_change_prob, output
 
 

@@ -1,9 +1,8 @@
-import numpy as np
 import torch
 import torch.nn as nn
 
 from dataloader import build_dataloader
-from HarmonyTransformer import HarmonyTransformer
+from models.HarmonyTransformer import HarmonyTransformer
 
 
 def train():

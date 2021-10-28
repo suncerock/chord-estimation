@@ -31,3 +31,7 @@ After downloading the data, uncompress and then rename them as is mentioned abov
 ```
 python data_preprocess.py
 ```
+
+## Evaluation
+
+The predictions are evaluated by weighted chord symbol recall (WCSR) score.
